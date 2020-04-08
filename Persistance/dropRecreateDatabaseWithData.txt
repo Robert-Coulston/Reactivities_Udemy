@@ -1,0 +1,3 @@
+PS C:\Users\robert\Documents\Visual Studio Code\reactivities\Persistance> dotnet ef database drop -s ..\API\
+cd reactivities/API
+dotnet watch run (this will re-seed the datbase)
