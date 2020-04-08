@@ -15,6 +15,7 @@ using Persistance;
 
 namespace Application.User
 {
+    //Register
     public class Register
     {
         public class Command : IRequest<User>
