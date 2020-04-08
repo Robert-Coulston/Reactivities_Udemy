@@ -15,8 +15,10 @@ using Persistence;
 
 namespace API
 {
+    //It all starts here
     public class Program
     {
+        // Main entry
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
@@ -30,6 +32,7 @@ namespace API
                     context.Database.Migrate();
                     Seed.SeedData(context, userManager).Wait();
                 }
+                // Last chance exception
                 catch (Exception ex)
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
