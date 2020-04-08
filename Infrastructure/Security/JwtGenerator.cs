@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Security
 {
+    // JwtGenerator
     public class JwtGenerator : IJwtGenerator
     {
         private readonly SymmetricSecurityKey _key;
