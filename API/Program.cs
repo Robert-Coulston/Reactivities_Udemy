@@ -30,6 +30,7 @@ namespace API
                     var context = services.GetRequiredService<DataContext>();
                     var userManager = services.GetRequiredService<UserManager<AppUser>>();
                     context.Database.Migrate();
+                    // Prepare the database with data
                     Seed.SeedData(context, userManager).Wait();
                 }
                 // Last chance exception
