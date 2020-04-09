@@ -15,7 +15,7 @@ using Persistence;
 
 namespace API
 {
-    //It all starts here
+    //It all starts here.
     public class Program
     {
         // Main entry
