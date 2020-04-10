@@ -3,6 +3,8 @@ import { Tab } from "semantic-ui-react";
 import ProfilePhotos from "./ProfilePhotos";
 import ProfileAbout from "./ProfileAbout";
 import ProfileFollowings from "./ProfileFollowings";
+import ProfileActivities from "./ProfileActivities";
+
 
 const panes = [
   {
@@ -15,7 +17,7 @@ const panes = [
   },
   {
     menuItem: "Activities",
-    render: () => <Tab.Pane>Activities content</Tab.Pane>
+    render: () => <ProfileActivities/>
   },
   {
     menuItem: "Followers",
