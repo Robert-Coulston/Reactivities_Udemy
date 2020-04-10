@@ -25,6 +25,7 @@ using System.Reflection;
 using API.SignalR;
 using System.Threading.Tasks;
 using Application.Profiles;
+using System;
 
 namespace API
 {
@@ -45,7 +46,7 @@ namespace API
             services.RegisterAssemblyPublicNonGenericClasses()
                 .Where(c => c.Name.EndsWith("Service"))
                 .AsPublicImplementedInterfaces();
-                
+
             services.AddDbContext<DataContext>(opt =>
             {
                 opt.UseLazyLoadingProxies();
@@ -56,7 +57,12 @@ namespace API
             {
                 opt.AddPolicy("CorsPolicy", policy =>
                 {
-                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000").AllowCredentials();
+                    policy
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .WithExposedHeaders("WWW-Authenticate")
+                    .WithOrigins("http://localhost:3000")
+                    .AllowCredentials();
                 });
             });
 
@@ -78,7 +84,7 @@ namespace API
             identityBuilder.AddSignInManager<SignInManager<AppUser>>();
 
             var isHostRequirement = new IsHostRequirement();
-            services.AddAuthorization(opt => opt.AddPolicy("IsActivityHost",policy => policy.Requirements.Add(isHostRequirement)));
+            services.AddAuthorization(opt => opt.AddPolicy("IsActivityHost", policy => policy.Requirements.Add(isHostRequirement)));
             services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
@@ -90,10 +96,14 @@ namespace API
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = key,
                         ValidateAudience = false,
-                        ValidateIssuer = false
+                        ValidateIssuer = false,
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero
                     };
-                    opt.Events = new JwtBearerEvents {
-                        OnMessageReceived = context => {
+                    opt.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
                             var accessToken = context.Request.Query["access_token"];
                             var path = context.HttpContext.Request.Path;
                             if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/chat")))
@@ -109,7 +119,7 @@ namespace API
             services.AddScoped<IUserAccessor, UserAccessor>();
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
             services.AddScoped<IProfileReader, ProfileReader>();
-            
+
             services.Configure<CloudinarySettings>(Configuration.GetSection("Cloudinary"));
         }
 

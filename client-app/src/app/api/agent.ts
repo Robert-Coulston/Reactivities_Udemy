@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { IUser, IUserFormValues } from "../models/user";
 import { IProfile, IPhoto, IProfileFormValues } from "../models/profile";
 
-axios.defaults.baseURL = "http://localhost:5000/api";
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 axios.interceptors.request.use(
   config => {
@@ -22,9 +22,15 @@ axios.interceptors.response.use(undefined, error => {
   if (error.message === "Network Error" && !error.response) {
     toast.error("Network error - make sure API is running!");
   }
-  const { status, data, config } = error.response;
+  const { status, data, config, headers } = error.response;
+
   if (status === 404) {
     history.push("/notfound");
+  }
+  if (status === 401 && headers['www-authenticate'].includes('Bearer error="invalid_token"') && headers['www-authenticate'].includes('expired')) {
+    window.localStorage.removeItem('jwt');
+    history.push('/');
+    toast.info('Your session has expired, please login again');
   }
   if (
     status === 400 &&
@@ -50,22 +56,18 @@ const requests = {
   get: (url: string) =>
     axios
       .get(url)
-      .then(sleep(1000))
       .then(responseBody),
   post: (url: string, body: {}) =>
     axios
       .post(url, body)
-      .then(sleep(1000))
       .then(responseBody),
   put: (url: string, body: {}) =>
     axios
       .put(url, body)
-      .then(sleep(1000))
       .then(responseBody),
   del: (url: string) =>
     axios
       .delete(url)
-      .then(sleep(1000))
       .then(responseBody),
   postForm: (url: string, file: Blob) => {
     let formData = new FormData();
