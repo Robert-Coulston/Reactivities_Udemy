@@ -21,7 +21,7 @@ const ProfileFollowings = () => {
       const predicate = activeTab === 3 ? 'followers': 'following';
       loadFollowings(predicate)
     } 
-  }, [profile!.followersCount, profile!.followingCount])
+  }, [profile!.followersCount, profile!.followingCount, activeTab, loadFollowings])
 
   return (
     <Tab.Pane loading={loading}>
