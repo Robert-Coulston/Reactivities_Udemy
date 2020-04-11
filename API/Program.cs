@@ -1,12 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Domain;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -15,10 +11,8 @@ using Persistence;
 
 namespace API
 {
-    //It all starts here.
     public class Program
     {
-        // Main entry
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
@@ -32,7 +26,6 @@ namespace API
                     context.Database.Migrate();
                     Seed.SeedData(context, userManager).Wait();
                 }
-                // Last chance exception
                 catch (Exception ex)
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
