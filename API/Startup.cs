@@ -36,22 +36,41 @@ namespace API
             Configuration = configuration;
         }
 
+
+        public void ConfigureDevelopmentServices(IServiceCollection services)
+        {
+            services.AddDbContext<DataContext>(opt =>
+            {
+                opt.UseLazyLoadingProxies();
+                opt.UseMySql(Configuration.GetConnectionString("MySQLConnection"));
+                //opt.UseSqlite(Configuration.GetConnectionString("SQLLiteConnection"));
+                //opt.UseSqlServer(Configuration.GetConnectionString("SQLConnection"));
+            });
+
+            ConfigureServices(services);
+        }
+
+
+        public void ConfigureProductionServices(IServiceCollection services)
+        {
+            services.AddDbContext<DataContext>(opt =>
+            {
+                opt.UseLazyLoadingProxies();
+                opt.UseMySql(Configuration.GetConnectionString("MySQLConnection"));
+                //opt.UseSqlServer(Configuration.GetConnectionString("SQLConnection"));
+            });
+            ConfigureServices(services);
+        }
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             var assemblyToScan = Assembly.GetAssembly(typeof(List.Handler)); //..or whatever assembly you need
             services.RegisterAssemblyPublicNonGenericClasses()
                 .Where(c => c.Name.EndsWith("Service"))
                 .AsPublicImplementedInterfaces();
-
-            services.AddDbContext<DataContext>(opt =>
-            {
-                opt.UseLazyLoadingProxies();
-                opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
-            });
 
             services.AddCors(opt =>
             {
