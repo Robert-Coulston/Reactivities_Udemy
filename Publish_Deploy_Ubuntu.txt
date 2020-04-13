@@ -1,0 +1,24 @@
+// Did you change anything on the UI ?
+// Terminal - client-app folder
+// check launchSettings.json for  "ASPNETCORE_ENVIRONMENT": "Production"
+npm run build
+
+// Publish
+// open terminal window on solution folder and type in :
+
+dotnet publish -c Release -o publish --self-contained false Reactivities.sln
+
+//logon to Ubuntu server and remove files and directories before deploy
+rm -r /var/reactivities/*
+
+// Deploy to server
+//Deploy the 'package' using the command shell - deploy package
+// details are in the settings.json file "deploy.reloaded"
+ctrl shift p
+// search on
+Deploy reloaded:deploy
+Package
+
+// logon to Ubuntu server and restart kestrel from command prompt
+sudo systemctl restart kestrel-web.service
+
