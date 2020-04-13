@@ -42,9 +42,9 @@ namespace API
             services.AddDbContext<DataContext>(opt =>
             {
                 opt.UseLazyLoadingProxies();
-                opt.UseMySql(Configuration.GetConnectionString("MySQLConnection"));
+                //opt.UseMySql(Configuration.GetConnectionString("MySQLConnection"));
                 //opt.UseSqlite(Configuration.GetConnectionString("SQLLiteConnection"));
-                //opt.UseSqlServer(Configuration.GetConnectionString("SQLConnection"));
+                opt.UseSqlServer(Configuration.GetConnectionString("SQLConnection"));
             });
 
             ConfigureServices(services);
@@ -56,8 +56,8 @@ namespace API
             services.AddDbContext<DataContext>(opt =>
             {
                 opt.UseLazyLoadingProxies();
-                opt.UseMySql(Configuration.GetConnectionString("MySQLConnection"));
-                //opt.UseSqlServer(Configuration.GetConnectionString("SQLConnection"));
+                //opt.UseMySql(Configuration.GetConnectionString("MySQLConnection"));
+                opt.UseSqlServer(Configuration.GetConnectionString("SQLConnection"));
             });
             ConfigureServices(services);
         }
@@ -149,6 +149,10 @@ namespace API
             if (env.IsDevelopment())
             {
                 //app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseHsts();
             }
 
             // app.UseHttpsRedirection();
