@@ -42,9 +42,9 @@ namespace API
             services.AddDbContext<DataContext>(opt =>
             {
                 opt.UseLazyLoadingProxies();
-                //opt.UseMySql(Configuration.GetConnectionString("MySQLConnection"));
+                opt.UseMySql(Configuration.GetConnectionString("MySQLConnection"));
                 //opt.UseSqlite(Configuration.GetConnectionString("SQLLiteConnection"));
-                opt.UseSqlServer(Configuration.GetConnectionString("SQLConnection"));
+                //opt.UseSqlServer(Configuration.GetConnectionString("SQLConnection"));
             });
 
             ConfigureServices(services);
@@ -56,8 +56,8 @@ namespace API
             services.AddDbContext<DataContext>(opt =>
             {
                 opt.UseLazyLoadingProxies();
-                //opt.UseMySql(Configuration.GetConnectionString("MySQLConnection"));
-                opt.UseSqlServer(Configuration.GetConnectionString("SQLConnection"));
+                opt.UseMySql(Configuration.GetConnectionString("MySQLConnection"));
+                //opt.UseSqlServer(Configuration.GetConnectionString("SQLConnection"));
             });
             ConfigureServices(services);
         }
@@ -169,7 +169,7 @@ namespace API
                 .FormActions(s => s.Self())
                 .FrameAncestors(s => s.Self())
                 .ImageSources(s => s.Self().CustomSources("https://res.cloudinary.com", "blob:", "data:"))
-                .ScriptSources(s => s.Self().CustomSources("sha256-zTmokOtDNMlBIULqs//ZgFtzokerG72Q30ccMjdGbSA="))
+                .ScriptSources(s => s.Self().CustomSources("sha256-zTmokOtDNMlBIULqs//ZgFtzokerG72Q30ccMjdGbSA=","sha256-ma5XxS1EBgt17N22Qq31rOxxRWRfzUTQS1KOtfYwuNo="))
                 );
 
 

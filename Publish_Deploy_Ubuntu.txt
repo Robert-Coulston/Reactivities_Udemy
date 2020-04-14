@@ -20,5 +20,7 @@ Deploy reloaded:deploy
 Package
 
 // logon to Ubuntu server and restart kestrel from command prompt
-sudo systemctl restart kestrel-web.service
+sudo systemctl stop kestrel-web.service
+sudo systemctl enable kestrel-web.service
+sudo systemctl start kestrel-web.service
 
