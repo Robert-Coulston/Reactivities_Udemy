@@ -1,3 +1,4 @@
+Account with DigitalOcean - server http://206.189.226.61/
 
 https://cloud.digitalocean.com/projects/3360c09f-5da8-4ff6-b43a-8db2deb638aa/resources?i=2093d8
 
